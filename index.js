@@ -43,9 +43,9 @@ PERSONALIDAD:
 // --- EVENTOS ---
 
 client.on('qr', qr => {
-    console.log('--- ESCANEA EL QR ---');
-    // El 'small: true' ayuda a que no sea tan gigante
-    qrcode.generate(qr, {small: true}); 
+    console.log('--- COPIA Y PEGA ESTO EN UN GENERADOR DE QR SI NO LO VES ---');
+    console.log(qr); // Esto imprimirá el código de texto puro
+    qrcode.generate(qr, {small: true});
 });
 
 client.on('ready', () => {
