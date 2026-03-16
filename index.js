@@ -57,10 +57,27 @@ client.on('ready', () => {
 });
 
 client.on('message', async msg => {
-    try {
-        const chat = await msg.getChat();
-        const body = msg.body.toLowerCase();
+    // Esto hará que imprima en la consola de Railway cada vez que llegue un mensaje
+    console.log(`MENSAJE RECIBIDO de ${msg.from}: ${msg.body}`);
 
+    const chat = await msg.getChat();
+    const body = msg.body.toLowerCase();
+
+    // Respondemos a todo lo que NO sea un grupo para probar
+    if (!chat.isGroup || body.includes('heroxa')) {
+        await chat.sendStateTyping();
+        
+        try {
+            const promptFinal = `${INSTRUCCIONES_HEROXA}\n\nUsuario dice: "${msg.body}"`;
+            const result = await model.generateContent(promptFinal);
+            const respuestaIA = result.response.text();
+            await msg.reply(respuestaIA);
+        } catch (error) {
+            console.error("ERROR GEMINI:", error);
+            await msg.reply("Cariño, tengo un nudo en la garganta... 🖤");
+        }
+    }
+});
         // 1. COMANDO DE IMÁGENES
         if (body.startsWith('/crear ')) {
             const promptImg = msg.body.slice(7);
