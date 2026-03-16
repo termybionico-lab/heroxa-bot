@@ -11,7 +11,7 @@ app.get('/', (req, res) => res.send('Heroxa está viva... 🖤🤘'));
 app.listen(port, () => console.log(`Puerto activo: ${port}`));
 
 // --- CONFIGURACIÓN IA (GEMINI) ---
-const API_KEY = "TU_API_KEY_AQUÍ"; 
+const API_KEY = "AIzaSyBL99q8zx6-xnIy53N-UelpDblYS9fZGfQ"; 
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
