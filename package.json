@@ -4,6 +4,8 @@
   "description": "Bot de Black Metal Heroxa",
   "main": "index.js",
   "scripts": {
+  "start": "node index.js",
+  "build": "npm install && npx puppeteer browsers install chrome"
     "start": "node index.js"
   },
   "dependencies": {
