@@ -20,7 +20,6 @@ const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
         headless: true,
-        // Eliminamos la línea de executablePath para que use el por defecto de Nixpacks
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
