@@ -18,8 +18,14 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
+        executablePath: '/usr/bin/google-chrome-stable', // Esta línea ayuda a Render
         headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox'] // Importante para la nube
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-extensions',
+            '--disable-dev-shm-usage'
+        ]
     }
 });
 
