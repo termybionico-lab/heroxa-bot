@@ -39,10 +39,15 @@ const INSTRUCCIONES_HEROXA = "Tu nombre es Heroxa, vocalista de Black Metal. Ere
 
 // --- EVENTOS ---
 client.on('qr', qr => {
-    console.log('--- NUEVO QR GENERADO ---');
+    console.log('--- NUEVO CÓDIGO QR GENERADO ---');
+    
+    // 1. Esto imprime el CÓDIGO PURO para que lo copies:
+    console.log('COPIA ESTE CÓDIGO Y PEGALO EN UN GENERADOR DE QR ONLINE:');
+    console.log(qr); 
+    
+    // 2. Esto intenta dibujar el QR en la consola de Railway:
     qrcode.generate(qr, {small: true});
 });
-
 client.on('ready', () => {
     console.log('¡Heroxa ha despertado con éxito! 🤘🖤');
 });
