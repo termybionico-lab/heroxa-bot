@@ -43,8 +43,9 @@ PERSONALIDAD:
 // --- EVENTOS ---
 
 client.on('qr', qr => {
-    console.log('--- ESCANEA EL QR PARA DESPERTAR A HEROXA ---');
-    qrcode.generate(qr, {small: false});
+    console.log('--- ESCANEA EL QR ---');
+    // El 'small: true' ayuda a que no sea tan gigante
+    qrcode.generate(qr, {small: true}); 
 });
 
 client.on('ready', () => {
