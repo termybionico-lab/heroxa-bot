@@ -5,4 +5,5 @@ nixPkgs = ["nodejs", "google-chrome", "cacert"]
 cmds = ["npm install"]
 
 [start]
-cmd = "node index.js"
+# Esto le dice a la librería dónde está el Chrome que instaló Railway
+cmd = "PUPPETEER_EXECUTABLE_PATH=$(which google-chrome-stable) node index.js"
