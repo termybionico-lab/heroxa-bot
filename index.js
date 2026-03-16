@@ -19,8 +19,8 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
-        executablePath: '/usr/bin/google-chrome-stable', // <--- ESTO ES CLAVE
         headless: true,
+        // Eliminamos la línea de executablePath para que use el por defecto de Nixpacks
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
