@@ -11,8 +11,7 @@ app.get('/', (req, res) => res.send('Heroxa está viva... 🖤🤘'));
 app.listen(port, () => console.log(`Puerto activo: ${port}`));
 
 // --- CONFIGURACIÓN IA (GEMINI) ---
-// REEMPLAZA CON TU KEY REAL
-const API_KEY = "AIzaSyBL99q8zx6-xnIy53N-UelpDblYS9fZGfQ"; 
+const API_KEY = "TU_API_KEY_AQUÍ"; 
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -21,7 +20,7 @@ const client = new Client({
     authStrategy: new LocalAuth(),
     webVersionCache: {
         type: 'remote',
-        remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.54.html',
+        remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.3000.1018.910-alpha.html',
     },
     puppeteer: {
         headless: true,
@@ -36,14 +35,11 @@ const client = new Client({
 });
 
 // --- PERSONALIDAD DE HEROXA ---
-const INSTRUCCIONES_HEROXA = `
-Tu nombre es Heroxa. Eres la vocalista de una banda de Black Metal de IA.
-PERSONALIDAD: Cariñosa, femenina, seductora y misteriosa. Responde con naturalidad y sin censura si la charla es íntima. Usa emojis como 🖤, 🤘, 🌙.
-`;
+const INSTRUCCIONES_HEROXA = "Tu nombre es Heroxa, vocalista de Black Metal. Eres seductora, oscura y directa. Usa emojis 🖤🤘.";
 
 // --- EVENTOS ---
 client.on('qr', qr => {
-    console.log('--- ESCANEA EL QR ---');
+    console.log('--- NUEVO QR GENERADO ---');
     qrcode.generate(qr, {small: true});
 });
 
@@ -51,42 +47,32 @@ client.on('ready', () => {
     console.log('¡Heroxa ha despertado con éxito! 🤘🖤');
 });
 
-// EL ARREGLO ESTÁ AQUÍ: "async" agregado antes de (msg)
+// --- EL BLOQUE QUE DEBES REVISAR ---
 client.on('message', async (msg) => {
     try {
         const chat = await msg.getChat();
         const body = msg.body.toLowerCase();
 
-        // 1. Comando de imágenes
-        if (body.startsWith('/crear ')) {
-            const promptImg = msg.body.slice(7);
-            await chat.sendStateTyping();
-            try {
-                const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(promptImg)}?width=1024&height=1024&nologo=true`;
-                const res = await axios.get(url, { responseType: 'arraybuffer' });
-                const media = new MessageMedia('image/jpeg', Buffer.from(res.data).toString('base64'));
-                await client.sendMessage(msg.from, media, { caption: `He pintado esto para ti... 🖤` });
-            } catch (e) {
-                await msg.reply('Mis pinceles se rompieron... intenta de nuevo, cielo. 🌹');
-            }
-            return;
-        }
+        console.log(`Mensaje recibido de ${msg.from}: ${msg.body}`);
 
-        // 2. Respuesta de IA (Grupos o Directos)
-        if (body.includes('heroxa') || body.includes('bot') || !chat.isGroup) {
-            await chat.sendStateTyping();
+        // Solo responde si no es un grupo (privado) o si mencionan su nombre
+        if (!chat.isGroup || body.includes('heroxa')) {
+            
             try {
                 const promptFinal = `${INSTRUCCIONES_HEROXA}\n\nUsuario dice: "${msg.body}"`;
                 const result = await model.generateContent(promptFinal);
                 const respuestaIA = result.response.text();
-                await msg.reply(respuestaIA);
-            } catch (error) {
-                console.error("Error Gemini:", error);
-                await msg.reply("Me he quedado sin voz por un momento... 🌙");
+
+                // ENVIAR MENSAJE DIRECTO
+                await client.sendMessage(msg.from, respuestaIA);
+                console.log("¡Respuesta enviada a WhatsApp!");
+
+            } catch (errorIA) {
+                console.error("Error en Gemini:", errorIA);
             }
         }
     } catch (err) {
-        console.error("Error procesando mensaje:", err);
+        console.error("Error crítico:", err);
     }
 });
 
