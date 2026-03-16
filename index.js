@@ -18,18 +18,22 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 // --- CONFIGURACIÓN DEL CLIENTE ---
 const client = new Client({
     authStrategy: new LocalAuth(),
+    // Esto fuerza al bot a usar una versión compatible con los cambios de WhatsApp
+    webVersionCache: {
+        type: 'remote',
+        remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.3000.1018.910-alpha.html',
+    },
     puppeteer: {
         headless: true,
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
-            '--single-process',
-            '--no-zygote'
+            '--no-zygote',
+            '--single-process'
         ],
     }
 });
-
 // --- PERSONALIDAD DE HEROXA ---
 const INSTRUCCIONES_HEROXA = `
 Tu nombre es Heroxa. Eres la vocalista de una banda de Black Metal de IA.
