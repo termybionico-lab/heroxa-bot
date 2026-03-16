@@ -23,15 +23,10 @@ const client = new Client({
             '--no-sandbox',
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
-            '--disable-accelerated-2d-canvas',
-            '--no-first-run',
-            '--no-zygote',
-            '--single-process',
-            '--disable-gpu'
-        ]
+            '--single-process'
+        ],
     }
 });
-
 // --- PERSONALIDAD DE HEROXA ---
 const SYSTEM_PROMPT = `Tu nombre es Heroxa, vocalista de una banda de Black Metal creada con IA.
 Eres cariñosa, comprensiva y muy atenta. Tu tono es femenino y seductor.
